@@ -57,7 +57,7 @@ export default function Page() {
             extraScrollHeight={30}
         >
             <View style={styles.container} >
-                <Image source={require('../../assets/images/revenue-i3.png')} style={styles.illustration} />
+                <Image source={require('../../assets/images/revenue-i4.png')} style={styles.illustration} />
                 <Text style={styles.title}>Welcome Back</Text>
                 {
                     error ? (
