@@ -1,8 +1,9 @@
 //create custom file
 import { Alert } from "react-native";
 import { useCallback, useState } from "react";
+import { API_URL } from "../constants/api";
 
-const API_URL = "https://wallet-api-9n3v.onrender.com/api"; // Replace with your API URL
+
 
 
 export const useTransactions = (userId) => {

@@ -1,9 +1,9 @@
 import { SignedIn, SignedOut, useUser } from '@clerk/clerk-expo'
 import { Link, useRouter } from 'expo-router'
-import { Alert, FlatList, Image, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, FlatList, Image, RefreshControl, Text, TouchableOpacity, View } from 'react-native'
 import { SignOutButton } from '@/components/SignOutButton'
 import { useTransactions } from '../../hooks/useTransactions'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import PageLoader from '../../components/PageLoader'
 import { styles } from '../../assets/styles/home.styles'
 import { Ionicons } from '@expo/vector-icons'
@@ -14,7 +14,11 @@ export default function Page() {
     const { user } = useUser()
     const { transactions, summary, isLoading, deleteTransaction, loadData } = useTransactions(user.id)
     const router = useRouter()
-
+const [refreshing, setRefreshing] = useState(false)
+const onRefresh = async () => {
+        setRefreshing(true);
+        await loadData().finally(() => setRefreshing(false));
+    };
 
     useEffect(() => {
         loadData();
@@ -29,7 +33,7 @@ export default function Page() {
 
 
 
-    if (isLoading) return <PageLoader />
+    if (isLoading && !refreshing) return <PageLoader />
 
 
 
@@ -88,6 +92,7 @@ export default function Page() {
                 )}
                 ListEmptyComponent={<NoTransactionsFound />}
                 showsVerticalScrollIndicator={false}
+                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/> }
             />
 
         </View>
